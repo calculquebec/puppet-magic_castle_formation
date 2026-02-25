@@ -523,6 +523,19 @@ class profile::freeipa::server (
     create_group => 'pkiuser',
     postrotate   => '/bin/systemctl restart pki-tomcatd@pki-tomcat.service > /dev/null 2>/dev/null || true',
   }
+
+  logrotate::rule { 'httpd':
+    path          => '/var/log/httpd/*log',
+    rotate        => 14,
+    daily         => true,
+    dateext       => true,
+    missingok     => true,
+    ifempty       => false,
+    sharedscripts => true,
+    compress      => true,
+    copytruncate  => true,
+    require       => Exec['ipa-install'],
+  }
 }
 
 class profile::freeipa::mokey (
