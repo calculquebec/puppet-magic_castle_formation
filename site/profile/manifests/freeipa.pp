@@ -527,7 +527,7 @@ class profile::freeipa::server (
   logrotate::rule { 'httpd':
     path          => '/var/log/httpd/*log',
     rotate        => 14,
-    daily         => true,
+    rotate_every  => 'daily',
     dateext       => true,
     missingok     => true,
     ifempty       => false,
